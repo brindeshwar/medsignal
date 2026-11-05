@@ -26,7 +26,10 @@
   },
   "cross_source_matches": 93517,
   "truncation_on_matched_pairs": {
+    "pairs": 93517,
     "truncated_rate": 0.3482,
+    "lost_over_half_rate": 0.2649,
+    "identical_length_rate": 0.2215,
     "heuristic_precision": 0.4642,
     "heuristic_recall": 0.1754
   },
@@ -59,8 +62,8 @@
   },
   "meta": {
     "config": "configs/data.yaml",
-    "git_sha": "303c731",
-    "built_utc": "2026-10-13T07:13:24+00:00",
+    "git_sha": "c519c29",
+    "built_utc": "2026-11-05T03:36:27+00:00",
     "output": "data/interim/reviews.parquet"
   }
 }

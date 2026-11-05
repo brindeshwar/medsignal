@@ -56,7 +56,7 @@ data/annotations/          gold set exports (IDs + labels, no review text)
 ## Known issues
 
 ### DrugRev (verified 2026-10-13)
-- **Truncated reviews.** Of 75,807 reviews also present in the UCI file (prefix-only match), only 27.6% are identical after whitespace normalisation; **27.7% are >10% shorter, 18.8% lost more than half their text**. With the stricter build match (93,517 pairs, see `reports/data/build_report.json`) 34.8% are >10% shorter.
+- **Truncated reviews.** On the 93,517 reviews matched to the UCI file by the build (date + rating + prefix; `reports/data/build_report.json` → `truncation_on_matched_pairs`): **34.8% of DrugRev texts are more than 10% shorter and 26.5% lost more than half their text**; 22.2% have the same length. (An early exploratory check with prefix-only matching, which also produced false matches, gave 27.7% / 18.8%; those figures are superseded.)
   - Pattern: DrugRev keeps the **first N sentences** (often one) and cuts at a sentence boundary; 62% of truncated texts are an exact prefix of the UCI text. Multi-paragraph reviews are cut far more often (76% vs 26%). DrugRev also strips double quotes inside text.
   - Because cuts land on sentence boundaries, truncation is **not detectable per row** ("no terminal punctuation": precision 0.46, recall 0.18). All DrugRev-only rows are therefore flagged `possibly_truncated` (ADR-0012).
   - Truncation removes content but adds none: extraction precision unaffected, recall lower for DrugRev-only reviews.
