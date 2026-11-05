@@ -53,7 +53,10 @@ def truncation_heuristic_quality(pairs: pd.DataFrame, threshold: float = 0.9) ->
     pred = pairs["drugrev_no_terminal_punct"]
     tp = int((truth & pred).sum())
     return {
+        "pairs": len(pairs),
         "truncated_rate": round(float(truth.mean()), 4),
+        "lost_over_half_rate": round(float((pairs["length_ratio"] < 0.5).mean()), 4),
+        "identical_length_rate": round(float((pairs["length_ratio"] == 1.0).mean()), 4),
         "heuristic_precision": round(tp / max(int(pred.sum()), 1), 4),
         "heuristic_recall": round(tp / max(int(truth.sum()), 1), 4),
     }
