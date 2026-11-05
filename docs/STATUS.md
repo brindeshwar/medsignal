@@ -25,7 +25,7 @@
 ## Known facts about the data (verified 2026-10-13)
 
 - **UCI #462 (Drugs.com) withdrawn** from UCI (403 / API not found). Using local train copy (161,297 rows) + DrugRev (Mendeley, CC BY 4.0, 392,510 rows, 2008-2023). See ADR-0011.
-- DrugRev truncates ~28% of overlapping reviews (19% lose >50%); 37% duplicate texts; 25,036 rows with shifted `IntakeTime`; has `UserName` (drop at load).
+- DrugRev truncates overlapping reviews: 34.8% >10% shorter, 26.5% lose >50% (93,517 matched pairs, build report); 37% duplicate texts; 25,036 rows with shifted `IntakeTime`; has `UserName` (drop at load).
 - Local `drugsComTrain_raw.csv`: 161,297 rows (official test file unobtainable).
 - 48,879 duplicate (review, rating) rows (~30%); 62% of reviews contain HTML entities (`&#039;`).
 - Rating distribution skewed: 10 stars = 32%, 1 star = 13%.
@@ -128,3 +128,8 @@
 - Bug caught: a `--limit` smoke run wrote a 2,000-review part-0000 that the full run would have treated as complete; fixed (isolated smoke outputs, chunk ID verification).
 - Full corpus: 263,862 reviews, 523,161 mentions, 169,209 reviews with an ADE, 57,157 stopped/planned (adverse_event 50,104), ~98 reviews/s. Generic 'side effects' phrases 0.19%.
 - Next: Phase 3 PR; HF Hub publish when owner adds HF_TOKEN; Phase 4 (MedDRA normalisation + FAERS/label signals, needs openFDA key).
+
+### 2026-11-05: Claude Code (Opus 5.5), session 15
+- Merged PR #29 (Phase 3). Tested Dependabot #30 (transformers 5.22, pandas 3.1, ...) locally merged with main: 95 tests, mypy, span + review smoke training OK; rebase requested.
+- Truncation figures corrected: the build report now also records `lost_over_half_rate` (26.5%) and `identical_length_rate` (22.2%) next to `truncated_rate` (34.8%) on 93,517 matched pairs. Early exploratory figures (27.7% / 18.8%, prefix-only matching with false matches) removed from DATA, DECISIONS, STATUS.
+- Owner decision: publish student models as **public** HF repos. Next: HF publishing, then Phase 4 (MedDRA normalisation, openFDA FAERS/labels, PRR/ROR signals).
